@@ -1,0 +1,67 @@
+	public void iniciarlizarArregloImagenes() {
+		
+	
+	JPanel panel = new JPanel();
+		panel.setBounds(10, 11, 355, 376);
+		panel.setBackground(new Color(255, 255, 255,50));
+		panelPrincipal.add(panel);
+		panel.setLayout(null);
+	
+		
+		// BOTONES	
+		int a= 10;
+		int b= 80;
+		int c= a+b+5; 	
+	
+		for (int i = 0; i < 4; i++) {
+				
+			JButton boton13 = new JButton(); 
+			boton13.setBounds(a, 11, 80, 85);
+			panel.add(boton13);
+			ImageIcon ico13 = new ImageIcon(getClass().getResource("/imagenes/Captura.PNG" ));
+			ImageIcon img13= new ImageIcon(ico13.getImage().getScaledInstance(boton13.getWidth(),boton13.getHeight(),Image.SCALE_SMOOTH));
+			boton13.setIcon(img13);
+			
+			a=a+b; 
+			}
+			a=10; 
+
+		for (int i = 0; i < 4; i++) {	
+			JButton boton13 = new JButton(); 
+			boton13.setBounds(a, 101, 80, 85);
+			panel.add(boton13);
+			ImageIcon ico13 = new ImageIcon(getClass().getResource("/imagenes/Captura.PNG" ));
+			ImageIcon img13= new ImageIcon(ico13.getImage().getScaledInstance(boton13.getWidth(),boton13.getHeight(),Image.SCALE_SMOOTH));
+			boton13.setIcon(img13);
+			
+			a=a+b; 
+			}
+			a=10; 
+				
+		for (int i = 0; i < 4; i++) {
+			
+			JButton boton13 = new JButton(); 
+			boton13.setBounds(a, 191, 80, 85);
+			panel.add(boton13);
+			ImageIcon ico13 = new ImageIcon(getClass().getResource("/imagenes/Captura.PNG" ));
+			ImageIcon img13= new ImageIcon(ico13.getImage().getScaledInstance(boton13.getWidth(),boton13.getHeight(),Image.SCALE_SMOOTH));
+			boton13.setIcon(img13);
+			
+			a=a+b; 
+			}
+			a=10; 
+			
+		for (int i = 0; i < 4; i++) {
+			
+			JButton boton13 = new JButton(); 
+			boton13.setBounds(a, 281, 80, 85);
+			panel.add(boton13);
+			ImageIcon ico13 = new ImageIcon(getClass().getResource("/imagenes/Captura.PNG" ));
+			ImageIcon img13= new ImageIcon(ico13.getImage().getScaledInstance(boton13.getWidth(),boton13.getHeight(),Image.SCALE_SMOOTH));
+			boton13.setIcon(img13);
+			
+			a=a+b; 
+		}
+	
+	}
+		
