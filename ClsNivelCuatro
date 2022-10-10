@@ -1,0 +1,230 @@
+package co.edu.upb;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+public class ClsNivelCuatro extends JFrame implements ActionListener{
+
+	/**
+	 * 
+	 */
+
+	private JPanel panelPrincipal;
+	JButton btn;
+	JButton arregloJButon[] = new JButton[16];
+	Carta cartas[] = new Carta[16];
+	Carta temporal = new Carta(0, "/imagenes/fondo.png", 0);
+	int par = 0;
+	
+	
+	public ClsNivelCuatro() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ClsNivelCuatro.class.getResource("/imagenes/iconAvocado-removebg-preview.png")));
+		setBackground(new Color(240, 240, 240));
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		iniciarComponentes();
+		setMinimumSize(new Dimension(300, 300));
+		setBounds(100, 100, 543, 430);
+		setLocationRelativeTo(null);
+		
+	}
+	
+	
+public void iniciarComponentes() {
+		
+		panelPrincipal = new JPanel();
+		panelPrincipal.setBorder(new EmptyBorder(5, 5, 5, 5));
+		panelPrincipal.setBackground(new Color(165, 196, 213));
+		setContentPane(panelPrincipal);
+		panelPrincipal.setLayout(null);
+
+		JLabel lbimagen1 = new JLabel("");
+		lbimagen1.setBounds(420, 0, 134, 131);
+	
+		ImageIcon ico = new ImageIcon(getClass().getResource("/imagenes/chillAvocado.png"));
+		ImageIcon img = new ImageIcon(
+				ico.getImage().getScaledInstance(lbimagen1.getWidth(), lbimagen1.getHeight(), Image.SCALE_SMOOTH));
+		lbimagen1.setIcon(img);
+		panelPrincipal.add(lbimagen1);
+
+		JPanel panel = new JPanel();
+		panel.setBounds(10, 11, 337, 366);
+		panel.setBackground(new Color(255, 255, 255, 50));
+		panelPrincipal.add(panel);
+		panel.setLayout(null);
+
+		JPanel panelReiniciar = new JPanel();
+		panelReiniciar.setBounds(348, 104, 171, 265);
+		panelReiniciar.setBackground(new Color(255, 255, 255, 60));
+		panelPrincipal.add(panelReiniciar);
+		panelReiniciar.setLayout(null);
+
+		// BOTONES
+		int a = 10;
+		int b = 58;
+		int c = 11;
+		int d = 67;
+		int contador = 0;
+	
+		for (int ii = 0; ii < 4; ii++) {
+			for (int j = 0; j < 4; j++) {
+				
+				btn = new JButton("");
+				btn.setBounds(a, c, 58, 67);
+				ImageIcon ico13 = new ImageIcon(getClass().getResource("/imagenes/fondo.png"));
+				ImageIcon img13 = new ImageIcon(ico13.getImage().getScaledInstance(btn.getWidth(), btn.getHeight(), Image.SCALE_SMOOTH));
+				
+				btn.setIcon(img13);
+			
+			
+				btn.setName(contador + "");
+				btn.addActionListener(this);
+				arregloJButon[contador] = btn;
+				contador++;
+				panel.add(btn);
+				a = a + b;
+			}
+			a = 10;
+			c = c + d;
+		}
+		revolver();
+		}
+
+		public void revolver() {
+			int c = 0;
+			System.out.println("Nope2");
+			// Llenamos nuestro arreglo de cartas con las 8 imagenes duplicadas para un
+			// total de 16 elementos
+			for (int i = 1; i <= 8; i++) {
+				// Carta (int valor, String nombre, int posicion en arreglo)
+				Carta carta1 = new Carta(i, i + ".png", c); 
+				Carta carta2 = new Carta(i, i + ".png", c + 1);
+				cartas[c] = carta1;
+				c++;
+				cartas[c] = carta2;
+				c++;
+			}
+			int llenar = 0; 
+			Carta cartaTemporal[] = new Carta[16];
+			for(int i = 0; i<cartaTemporal.length; i++ ) {
+				cartaTemporal[i] = new Carta(0, "1.png", -1);
+				System.out.println("Nope3");
+			}
+			
+			while(llenar<16) {
+				System.out.println("Nope4");
+				System.out.println("llenar: "+ llenar);	
+				//Aleatorio para desordenar las cartas. Hacemos casteo de int 
+				int aleatorio= ((int)(Math.random()*16)); 
+				System.out.println("El random generado es: "+ aleatorio);
+				//Validacion de que el random generado no está gardado en el arreglo de cartas temporales
+				if(buscarNum(aleatorio, cartaTemporal)) {
+				//En el nuevo arrego que estamos creanod, mandarle na carta al azar
+				cartaTemporal[llenar] = cartas[aleatorio]; 
+				cartaTemporal[llenar].btn= arregloJButon[llenar];
+				llenar++; 
+				
+				}
+				else {
+					System.out.println("Ya está la carta");
+				}
+			}
+			System.out.println("TERMINÓ EL WHILE");
+			cartas=cartaTemporal; 
+			
+		}
+		
+	
+		//Recibe el numero que vamos a buscar y el arreglo de cartas
+		public boolean buscarNum(int num, Carta c[]) {
+			int con = 0;
+			for(Carta c1 : c) {
+				if(num == c1.posicion) {
+					con++;
+				
+				}
+			}
+			//devuelve verdadero(no ha sido ingresado) o falso
+			return (con<1); 
+		}
+		
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			int movimientos = 0;
+			int puntaje = 0; 
+			for (int i = 0; i < arregloJButon.length; i++) {
+				JButton jButton = arregloJButon[i];
+
+				// Si mi boton en esa posicion del arreglo coincide en el click que dio el
+				// usuario, y esa carta todavía no ha sido revelado
+				
+				if (cartas[i].btn == e.getSource() && cartas[i].revelado == false) {
+					cartas[i].btn.setIcon(cartas[i].img);
+					if (par == 0) {
+						cartas[i].revelado = true;
+						temporal = cartas[i];
+						par = 1;
+					} else {
+						par = 0;
+						if (cartas[i].valor == temporal.valor){
+							cartas[i].revelado = true;
+							System.out.println("Si esss");
+							
+							// Revisamos todas las cartas, y en caso en que todas se hayan revelado, el
+							// usuario gana
+							
+							boolean bandera = true;
+							for (Carta elemento : cartas) {
+								if (elemento.revelado == false) {
+									bandera = false;
+									break;
+								}
+							}
+							if (bandera) {
+								JOptionPane.showMessageDialog(this, "Ganaste");
+								System.out.println("Puntaje: "+ puntaje);
+							}
+						} else {
+						   try {
+								System.out.println("No es");
+								cartas[i].btn.update(cartas[i].btn.getGraphics());
+								Thread.sleep(500);
+								tapar(i);
+							} catch (Exception e2) {
+								System.out.println(e2);
+							}
+						}
+					}
+				}
+			}
+		}
+
+		public void tapar(int a) {
+		
+			ImageIcon ico13 = new ImageIcon(getClass().getResource("/imagenes/fondo.png"));
+			ImageIcon img13 = new ImageIcon(ico13.getImage().getScaledInstance(btn.getWidth(), btn.getHeight(), Image.SCALE_SMOOTH));
+			btn.setIcon(img13);
+			cartas[a].btn.setIcon(img13);
+			
+			cartas[Integer.valueOf(temporal.btn.getName())].revelado = false;
+			cartas[Integer.valueOf(temporal.btn.getName())].btn.setIcon(img13);
+		}
+		
+		public static void main(String[] args) {
+			System.out.println("Nope");
+			new ClsNivelCuatro().setVisible(true);
+		}
+		
+}
