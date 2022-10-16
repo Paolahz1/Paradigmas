@@ -1,0 +1,379 @@
+package co.edu.upb;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+public class Cls2NivelCuatro extends JFrame implements ActionListener{
+
+	private JPanel panelPrincipal, panel;
+	JButton btn, pista, btnImagen1, btn1;
+	JLabel labelPista, imagen2; 
+	JLabel lblJugador1, lblJugador2 ;
+	JButton arregloJButon[] = new JButton[16];
+	Carta cartas[] = new Carta[16];
+	Carta temporal = new Carta(0, "/imagenes/fondo.png", 0);
+	Carta cartaTemporal1[] = new Carta[16]; 
+	int par = 0;
+	int contPista= 2; 
+	int labelContPista= 2; 
+	int puntaje1 = 0; 
+	int puntaje2 = 0;
+	int jugador =  ((int)(Math.random()*2));
+	Usuario myUsuario = new Usuario(); 
+	
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Cls2NivelCuatro frame = new Cls2NivelCuatro();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+					
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Cls2NivelCuatro() {
+		System.out.println("inicio: "+ jugador);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Cls2NivelCuatro.class.getResource("/imagenes/iconAvocado-removebg-preview.png")));
+		setBackground(new Color(240, 240, 240));
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		iniciarComponentes();
+		setMinimumSize(new Dimension(300, 300));
+		setBounds(100, 100, 408, 345);
+		setLocationRelativeTo(null);
+	}
+	public void iniciarComponentes() {
+		
+		panelPrincipal = new JPanel();
+		panelPrincipal.setBorder(new EmptyBorder(5, 5, 5, 5));
+		panelPrincipal.setBackground(new Color(165, 196, 213));
+		setContentPane(panelPrincipal);
+		panelPrincipal.setLayout(null);
+
+		// Crea un boton con icono y fondo transparente
+		btnImagen1 = new JButton();
+		btnImagen1.setBounds(272, 23, 104, 69);
+		btnImagen1.setFocusPainted(false);
+		btnImagen1.setBorderPainted(false);
+		btnImagen1.setContentAreaFilled(false);
+		btnImagen1.addActionListener(this);
+		ImageIcon ico = new ImageIcon(getClass().getResource("/imagenes/coupleAvocado-removebg-preview.png"));
+		ImageIcon img = new ImageIcon(
+				ico.getImage().getScaledInstance(btnImagen1.getWidth(), btnImagen1.getHeight(), Image.SCALE_SMOOTH));
+		btnImagen1.setIcon(img);
+		panelPrincipal.add(btnImagen1);
+	
+		panel = new JPanel();
+		panel.setBounds(10, 11, 252, 286);
+		panel.setBackground(new Color(255, 255, 255, 50));
+		panelPrincipal.add(panel);
+		panel.setLayout(null);
+		
+		labelPista = new JLabel();
+		labelPista.setForeground(new Color(0, 0, 0));
+		labelPista.setBounds(276, 155, 74, 20);
+		labelPista.setText("Pistas: " + labelContPista);
+		panelPrincipal.add(labelPista);
+		labelPista.setFont(new Font("Party Confetti", Font.PLAIN, 16));
+		
+		pista = new JButton("Pista");
+		pista.setForeground(new Color(255, 0, 255));
+		pista.setBounds(276, 109, 74, 23);
+		panelPrincipal.add(pista);
+		pista.setFont(new Font("Fresh Fruit", Font.PLAIN, 14));	
+		pista();  
+		
+		lblJugador1 = new JLabel();
+		lblJugador1.setText(myUsuario.getNombre() + ": "+  puntaje1);
+		lblJugador1.setFont(new Font("Party Confetti", Font.PLAIN, 16));
+		lblJugador1.setBounds(276, 188, 74, 20);
+		panelPrincipal.add(lblJugador1);
+		
+		lblJugador2 = new JLabel();
+		lblJugador2.setText(Usuario.getNombre2() +": "+ puntaje2);
+		lblJugador2.setFont(new Font("Party Confetti", Font.PLAIN, 16));
+		lblJugador2.setBounds(276, 221, 78, 20);
+		panelPrincipal.add(lblJugador2);
+		
+		//Imagen de fondo, decoración 
+		imagen2 = new JLabel("New label");
+		imagen2.setBounds(265, 102, 116, 170);
+		ImageIcon icon = new ImageIcon(getClass().getResource("/imagenes/imagenFonfoCuatro.PNG"));
+		ImageIcon imgn = new ImageIcon(
+				icon.getImage().getScaledInstance(imagen2.getWidth(), imagen2.getHeight(), Image.SCALE_SMOOTH));
+		imagen2.setIcon(imgn);
+		panelPrincipal.add(imagen2);
+		
+	
+		// BOTONES
+		int a = 10;
+		int b = 58;
+		int c = 11;
+		int d = 67;
+		int contador = 0;
+	
+		for (int ii = 0; ii < 4; ii++) {
+			for (int j = 0; j < 4; j++) {
+				
+				btn = new JButton("");
+				btn.setBounds(a, c, 58, 67);
+				ImageIcon ico13 = new ImageIcon(getClass().getResource("/imagenes/fondo.png"));
+				ImageIcon img13 = new ImageIcon(ico13.getImage().getScaledInstance(btn.getWidth(), btn.getHeight(), Image.SCALE_SMOOTH));
+				btn.setIcon(img13);
+			
+			
+				btn.setName(contador + "");
+				btn.addActionListener(this);
+				arregloJButon[contador] = btn;
+				contador++;
+				panel.add(btn);
+				a = a + b;
+			}
+			a = 10;
+			c = c + d;
+		}
+		revolver();
+	}
+
+	public void revolver() {
+			int c = 0;
+			// Llenamos nuestro arreglo de cartas con las 8 imagenes duplicadas para un
+			// total de 16 elementos
+			for (int i = 1; i <= 8; i++) {
+				// Carta (int valor, String nombre, int posicion en arreglo)
+				Carta carta1 = new Carta(i, i + ".png", c); 
+				Carta carta2 = new Carta(i, i + ".png", c + 1);
+				cartas[c] = carta1;
+				c++;
+				cartas[c] = carta2;
+				c++;
+			}
+			int llenar = 0; 
+			Carta cartaTemporal[] = new Carta[16];
+			for(int i = 0; i<cartaTemporal.length; i++ ) {
+				cartaTemporal[i] = new Carta(0, "1.png", -1);
+				
+			}
+			
+			while(llenar<16) {
+				//Aleatorio para desordenar las cartas. Hacemos casteo de int 
+				int aleatorio= ((int)(Math.random()*16)); 
+				//Validacion de que el random generado no está gardado en el arreglo de cartas temporales
+				if(buscarNum(aleatorio, cartaTemporal)) {
+				//En el nuevo arrego que estamos creanod, mandarle na carta al azar 
+				cartaTemporal[llenar] = cartas[aleatorio]; 
+				cartaTemporal[llenar].btn= arregloJButon[llenar];
+				llenar++; 
+				}
+				else {
+				//	System.out.println("Ya está la carta");
+				}
+			}
+			//System.out.println("TERMINÓ EL WHILE");
+			cartas=cartaTemporal; 
+			
+	}
+			
+		//Recibe el numero que vamos a buscar y el arreglo de cartas
+		public boolean buscarNum(int num, Carta c[]) {
+			int con = 0;
+			for(Carta c1 : c) {
+				if(num == c1.posicion) {
+					con++;
+				
+				}
+			}
+			//devuelve verdadero(no ha sido ingresado) o falso
+			return (con<1); 
+		}
+
+		public void pista(){
+			
+			pista.addActionListener(new ActionListener() {
+				
+				public void actionPerformed(ActionEvent ex) {
+					
+					if(contPista >0 ) {
+					puntaje1 = 0; 
+					lblJugador1.setText("Puntaje: "+ puntaje1);
+					}
+					
+					if(contPista >0 ) {
+					puntaje2 = 0; 
+					lblJugador2.setText("Puntaje: "+ puntaje2);
+					}
+					
+					if(labelContPista>0 ) {
+						labelContPista--;
+						labelPista.setText("Pista: " + labelContPista);
+					}
+					
+					if(pista == ex.getSource()) {	
+						if(contPista>0) {	
+						
+							for(int i =0; i< cartaTemporal1.length; i++) {
+								cartaTemporal1[i] = cartas[i]; 			
+								cartaTemporal1[i].btn= arregloJButon[i];
+								cartaTemporal1[i].btn.setIcon(cartaTemporal1[i].img);
+								cartaTemporal1[i].btn.update(cartaTemporal1[i].btn.getGraphics());
+							}				
+							for(int i =0; i< cartaTemporal1.length; i++) {
+								try {
+									Thread.sleep(100);
+									cartaTemporal1[i].revelado = false;
+									tapar2(i);
+						
+								} catch (Exception ez) {
+									}		
+							}
+						}	
+						contPista--;
+					}
+				}
+			});
+		}
+		
+		
+	int intento = 1;
+		
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(btnImagen1 == e.getSource()) {
+			ModosDeJuego myModosDeJuego = new ModosDeJuego();
+			myModosDeJuego.setVisible(true);
+			this.dispose(); 
+		}	
+		
+		System.out.println("El rando generado es: "+ jugador);
+
+		for (int i = 0; i < arregloJButon.length; i++) {
+			
+			
+			// Si mi boton en esa posicion del arreglo coincide en el click que dio el
+			// usuario, y esa carta todavía no ha sido revelado
+			
+			if (cartas[i].btn == e.getSource() && cartas[i].revelado == false) {
+				
+				System.out.println("El RANDOM generado en el intento " + intento+ " es: "+ jugador);
+				cartas[i].btn.setIcon(cartas[i].img);
+				if (par == 0) {
+					System.out.println("Empieja jugador: "+ jugador);
+					System.out.println("par es: "+ par);
+					cartas[i].revelado = true;
+					temporal = cartas[i];
+					par = 1;
+				} else{
+					System.out.println("par es: "+ par);
+					par = 0;
+					if (cartas[i].valor == temporal.valor){
+						cartas[i].revelado = true;
+						boolean bandera = true;
+						
+	//					this.puntaje1++; 
+
+						if(jugador == 0) {
+							this.puntaje1++; 
+							lblJugador1.setText("Puntaje1: "+ puntaje1);	
+							System.out.println("JUGADOR 0, acerto");
+						}
+						else {
+							System.out.println("JUGADOR 0, no es");
+						}
+						
+						if(jugador == 1) {
+							this.puntaje2++;
+							lblJugador2.setText("Puntaje2: "+ puntaje2);	
+							System.out.println("JUGADOR 1, acerto");
+						}
+						else {
+							System.out.println("JUGADOR 1, no es");
+						}
+					
+						// Revisamos todas las cartas, y en caso en que todas se hayan revelado, el
+						// usuario gana 
+						
+						for (Carta elemento : cartas) {
+							if (elemento.revelado == false) {
+								bandera = false;
+						 		break;
+							}
+						}					
+						if (bandera) {
+								ImageIcon ico13 = new ImageIcon(getClass().getResource("/imagenes/YouWin.png"));		
+								JOptionPane.showMessageDialog(this, "Fantástico","Fin del juego",EXIT_ON_CLOSE, ico13);
+								System.out.println("Puntaje1 : "+ puntaje1 + "Puntaje 2: "+ puntaje2);
+						}
+					} else {
+						  try{
+							    cartas[i].btn.update(cartas[i].btn.getGraphics());
+								cartas[i].revelado = false;
+								Thread.sleep(500);
+								tapar(i);  
+								
+								if(jugador == 1) {
+									jugador= 0;
+								   	System.out.println("CAMBIA A: jugador "+jugador);
+								}
+								else {
+									jugador= 1;
+								   	System.out.println("CAMBIAA A: jugador"+jugador);
+								}
+	 
+							}catch (Exception e2) {
+								System.out.println(e2);
+							}
+						}
+					System.out.println("QUEDAMOoooooS CON JUGADOR "+ jugador);
+					}
+		
+				}
+				intento++;
+			}
+
+		System.out.println();
+		System.out.println("Puntaje1 Total : "+ puntaje1 + "\n" + "Puntaje2 Total: "+ puntaje2);
+		}
+		
+		public void tapar(int a) {
+			ImageIcon ico13 = new ImageIcon(getClass().getResource("/imagenes/fondo.png"));
+			ImageIcon img13 = new ImageIcon(ico13.getImage().getScaledInstance(btn.getWidth(), btn.getHeight(), Image.SCALE_SMOOTH));
+			btn.setIcon(img13);
+			cartas[a].btn.setIcon(img13);
+			cartas[Integer.valueOf(temporal.btn.getName())].revelado = false;
+			cartas[Integer.valueOf(temporal.btn.getName())].btn.setIcon(img13);
+		}
+		public void tapar2(int a) {
+			
+			ImageIcon ico13 = new ImageIcon(getClass().getResource("/imagenes/fondo.png"));
+			ImageIcon img13 = new ImageIcon(ico13.getImage().getScaledInstance(btn.getWidth(), btn.getHeight(), Image.SCALE_SMOOTH));
+			btn.setIcon(img13);
+			cartaTemporal1[a].btn.setIcon(img13);
+			//cartas[Integer.valueOf(temporal.btn.getName())].revelado = false;
+			cartaTemporal1[Integer.valueOf(temporal.btn.getName())].btn.setIcon(img13);
+		
+		}
+
+}
